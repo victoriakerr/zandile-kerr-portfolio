@@ -1,45 +1,57 @@
-import { Sparkles, GraduationCap, Users, Code2 } from "lucide-react";
-import { Reveal, Section } from "./shared";
-
-const highlights = [
-  { Icon: Code2, label: "Full-stack development", value: "Python · Java · React" },
-  { Icon: Users, label: "Technical mentorship", value: "WeThinkCode_ tutor supervisor" },
-  { Icon: Sparkles, label: "AI acceleration", value: "CAPACITI AI Skills Accelerator" },
-  { Icon: GraduationCap, label: "Education", value: "System Development (IT)" },
-];
+import { Reveal, Section, Tag } from "./shared";
+import { profileSummary, skillTags } from "@/lib/cv";
 
 export function About() {
   return (
     <Section id="about" eyebrow="Who I am" title="About Me">
-      <div className="grid gap-6 md:grid-cols-5">
-        <Reveal className="md:col-span-3">
-          <div className="glass glass-hover h-full p-7 md:p-9">
-            <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
-              Curious and adaptable Software Developer with hands-on experience in full-stack
-              development and technical mentorship. Previously served as a Tutor Supervisor at
-              WeThinkCode_. I&rsquo;m passionate about learning, teaching, and showing up for the
-              tech community across South Africa.
-            </p>
+      <div className="grid items-center gap-10 md:grid-cols-5 md:gap-12">
+        <Reveal className="md:col-span-2">
+          <div className="relative mx-auto w-fit">
+            <div
+              aria-hidden
+              className="absolute -inset-4 rounded-full blur-2xl"
+              style={{ background: "var(--gradient-brand)", opacity: 0.35 }}
+            />
+            <div
+              className="relative flex h-56 w-56 items-center justify-center rounded-full p-[3px] md:h-64 md:w-64"
+              style={{ background: "var(--gradient-brand)", boxShadow: "var(--glow-purple)" }}
+            >
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-background">
+                <span className="gradient-text text-5xl font-extrabold tracking-tight">ZK</span>
+              </div>
+            </div>
+
+            <span className="glass absolute -top-2 -left-6 px-3 py-1.5 text-xs font-medium">
+              Tutor Supervisor
+            </span>
+            <span className="glass absolute -right-4 bottom-6 px-3 py-1.5 text-xs font-medium">
+              AI Learner
+            </span>
           </div>
         </Reveal>
 
-        <div className="grid gap-4 md:col-span-2">
-          {highlights.map((h, i) => (
-            <Reveal key={h.label} delay={i * 70}>
-              <div className="glass glass-hover flex items-center gap-4 p-5">
-                <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
-                  style={{ background: "var(--gradient-brand-soft)" }}
-                >
-                  <h.Icon className="h-5 w-5" style={{ color: "var(--pink)" }} />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold">{h.label}</span>
-                  <span className="block text-xs text-muted-foreground">{h.value}</span>
-                </span>
-              </div>
-            </Reveal>
-          ))}
+        <div className="md:col-span-3">
+          <Reveal>
+            <h3 className="text-2xl font-bold md:text-3xl">
+              Bridging <span className="gradient-text">Technology</span> &amp; Human Potential
+            </h3>
+          </Reveal>
+
+          <div className="mt-5 space-y-4">
+            {profileSummary.map((p, i) => (
+              <Reveal key={p.slice(0, 24)} delay={i * 60}>
+                <p className="text-sm leading-relaxed text-muted-foreground md:text-base">{p}</p>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={240}>
+            <div className="mt-7 flex flex-wrap gap-2">
+              {skillTags.map((t) => (
+                <Tag key={t}>{t}</Tag>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </div>
     </Section>
