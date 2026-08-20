@@ -1,5 +1,7 @@
-/** Path to the CV PDF served from /public. Downloads are renamed on save. */
-export const CV_PDF_URL = "/Zandile_Kerr_CV.pdf";
+import cvAsset from "@/assets/Zandile_Kerr_CV.pdf.asset.json";
+
+/** CDN-hosted CV PDF. Downloads are renamed on save. */
+export const CV_PDF_URL = cvAsset.url;
 export const CV_FILE_NAME = "Zandile_Kerr_CV.pdf";
 
 export function downloadCv() {
