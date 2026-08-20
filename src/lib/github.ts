@@ -111,10 +111,12 @@ export function streaks(days: ContributionDay[]) {
   const upToToday = days.filter((d) => d.date <= todayKey);
   let current = 0;
   for (let i = upToToday.length - 1; i >= 0; i--) {
-    if (upToToday[i].count > 0) current += 1;
+    const count = upToToday[i]?.count ?? 0;
+    if (count > 0) current += 1;
     else if (i === upToToday.length - 1) continue; // today not yet active
     else break;
   }
+
 
   const total = days.reduce((s, d) => s + d.count, 0);
   return { current, longest, total };
