@@ -1,45 +1,7 @@
-import { Github, Linkedin, Mail, Download, FolderGit2, Images, Send } from "lucide-react";
+import { Github, Linkedin, Mail, Download, FolderGit2, FileText, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./shared";
-
-const cv = `Zandile Kerr — Software Developer & AI Enthusiast
-South Africa | vickykerr20@gmail.com | +27 62 664 9400
-LinkedIn: https://www.linkedin.com/in/zandile-kerr
-GitHub: https://github.com/victoriakerr
-
-PROFILE
-Curious and adaptable Software Developer with hands-on experience in full-stack
-development and technical mentorship. CAPACITI AI Skills Accelerator participant.
-Active in the South African tech community.
-
-EXPERIENCE
-Tutor Supervisor — WeThinkCode_ | Oct 2025 - Aug 2026
-- Mentored peer tutors and supported students in Python and algorithmic problem-solving
-- Coordinated technical modules and ensured quality in learning delivery
-
-EDUCATION
-WeThinkCode_ | 2022-2024 — System Development (Information Technology)
-
-SKILLS
-Python, Java, JavaScript, SQL, HTML5, CSS3, React, FastAPI, Node.js, MongoDB, MySQL,
-Git, GitHub, Docker, Postman, Linux, Selenium, JUnit, Playwright, TDD, CI/CD, SDLC, MVC, Agile
-
-CERTIFICATES
-Google AI Essentials V1 (Coursera, Aug 2026); Software Engineer 99th percentile (TestGorilla, Jun 2026);
-Clean Code 98th percentile (TestGorilla, Jun 2026); Problem Solving 93rd percentile (TestGorilla, Jun 2026);
-Coding: Entry-Level Algorithms 61st percentile (TestGorilla, Jun 2026);
-Job Application Essentials (IBM, Oct 2023); CAPACITI AI Skills Accelerator Participant (2026)
-`;
-
-function downloadCv() {
-  const blob = new Blob([cv], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Zandile-Kerr-CV.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
+import { downloadCv } from "@/lib/cv";
 
 const socials = [
   { href: "https://www.linkedin.com/in/zandile-kerr", label: "LinkedIn", Icon: Linkedin },
@@ -73,7 +35,7 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={140}>
-          <p className="mt-4 font-display text-xl text-foreground/90 md:text-2xl">
+          <p className="mt-4 text-xl text-foreground/90 md:text-2xl">
             Software Developer &amp; AI Enthusiast
           </p>
         </Reveal>
@@ -93,8 +55,8 @@ export function Hero() {
               </a>
             </Button>
             <Button asChild variant="outlineGlow" size="lg">
-              <a href="#gallery">
-                <Images /> View Gallery
+              <a href="#cv">
+                <FileText /> View CV
               </a>
             </Button>
             <Button asChild variant="outlineGlow" size="lg">
