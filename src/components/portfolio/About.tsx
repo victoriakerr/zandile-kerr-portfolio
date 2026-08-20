@@ -1,5 +1,6 @@
 import { Reveal, Section, Tag } from "./shared";
 import { profileSummary, skillTags } from "@/lib/cv";
+import profileAsset from "@/assets/zandile-profile.jpg.asset.json";
 
 export function About() {
   return (
@@ -16,9 +17,12 @@ export function About() {
               className="relative flex h-56 w-56 items-center justify-center rounded-full p-[3px] md:h-64 md:w-64"
               style={{ background: "var(--gradient-brand)", boxShadow: "var(--glow-purple)" }}
             >
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-background">
-                <span className="gradient-text text-5xl font-extrabold tracking-tight">ZK</span>
-              </div>
+              <img
+                src={profileAsset.url}
+                alt="Zandile Kerr in graduation cap and WeThinkCode_ sash"
+                loading="lazy"
+                className="h-full w-full rounded-full object-cover object-top"
+              />
             </div>
 
             <span className="glass absolute -top-2 -left-6 px-3 py-1.5 text-xs font-medium">
@@ -27,8 +31,12 @@ export function About() {
             <span className="glass absolute -right-4 bottom-6 px-3 py-1.5 text-xs font-medium">
               AI Learner
             </span>
+            <span className="glass absolute -bottom-3 left-2 px-3 py-1.5 text-xs font-medium">
+              Software Engineer
+            </span>
           </div>
         </Reveal>
+
 
         <div className="md:col-span-3">
           <Reveal>
