@@ -50,11 +50,7 @@ function ProjectCard({ repo, delay }: { repo: GhRepo; delay: number }) {
                 <ExternalLink /> Live Demo
               </a>
             </Button>
-          ) : (
-            <Button size="sm" variant="outlineGlow" disabled>
-              <ExternalLink /> Live Demo
-            </Button>
-          )}
+          ) : null}
         </div>
       </article>
     </Reveal>
