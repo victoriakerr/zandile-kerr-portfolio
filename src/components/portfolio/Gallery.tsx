@@ -38,8 +38,7 @@ export function Gallery() {
         {galleryItems.map((item, i) => (
           <Reveal key={item.caption} delay={(i % 3) * 80}>
             <article
-              className={`group glass relative overflow-hidden rounded-[var(--radius-xl)] ${item.image ? "cursor-zoom-in" : "glass-hover"}`}
-              style={{ minHeight: 320 }}
+              className={`group glass relative h-80 overflow-hidden rounded-[var(--radius-xl)] ${item.image ? "cursor-zoom-in" : "glass-hover"}`}
               onClick={() => item.image && setActive(item)}
             >
               {item.image ? (
@@ -47,12 +46,11 @@ export function Gallery() {
                   src={item.image}
                   alt={item.caption}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  style={{ minHeight: 320 }}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div
-                  className="flex h-full min-h-[320px] flex-col items-center justify-center gap-3 px-6"
+                  className="flex h-full flex-col items-center justify-center gap-3 px-6"
                   style={{ background: "var(--gradient-brand-soft)" }}
                 >
                   <ImageUp className="h-8 w-8" style={{ color: "var(--pink)" }} />
