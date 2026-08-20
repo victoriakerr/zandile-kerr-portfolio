@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Nav } from "@/components/portfolio/Nav";
 import { Hero } from "@/components/portfolio/Hero";
 import { About } from "@/components/portfolio/About";
+import { CV } from "@/components/portfolio/CV";
 import { Skills } from "@/components/portfolio/Skills";
 import { GitHubDashboard } from "@/components/portfolio/GitHubDashboard";
 import { Projects } from "@/components/portfolio/Projects";
@@ -58,6 +59,7 @@ function Index() {
       <main>
         <Hero />
         <About />
+        <CV />
         <Skills />
         <GitHubDashboard />
         <Projects />
