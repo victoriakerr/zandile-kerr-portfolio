@@ -1,7 +1,5 @@
 import { CalendarDays, MapPin, Users, ExternalLink, ImageUp } from "lucide-react";
-import snowflakeImg from "@/assets/event-snowflake.jpg.asset.json";
 import womenInAiImg from "@/assets/event-women-in-ai.jpg.asset.json";
-import awsSummitImg from "@/assets/event-aws-summit.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Reveal, Section, Tag } from "./shared";
 
@@ -12,7 +10,6 @@ const events = [
     date: "2026",
     attendees: "150+ attendees",
     type: "Workshop",
-    image: snowflakeImg.url,
     url: "https://www.snowflake.com",
     topics: ["Data Cloud", "AI Pipelines"],
     description:
@@ -24,7 +21,6 @@ const events = [
     date: "Attended",
     attendees: "5 000+ attendees",
     type: "Summit",
-    image: awsSummitImg.url,
     url: "https://aws.amazon.com/summits",
     topics: ["Cloud", "Serverless", "AI/ML"],
     description:

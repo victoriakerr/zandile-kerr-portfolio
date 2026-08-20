@@ -1,155 +1,78 @@
-import { useEffect, useRef, useState } from "react";
-import { Upload, X, Trash2, ImagePlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { X, ImageUp } from "lucide-react";
 import { Reveal, Section } from "./shared";
+import snowflakeImg from "@/assets/event-snowflake.jpg.asset.json";
+import womenInAiImg from "@/assets/event-women-in-ai.jpg.asset.json";
+import awsSummitImg from "@/assets/event-aws-summit.jpg.asset.json";
 
-type Photo = { id: string; src: string; caption: string };
+type GalleryItem = { caption: string; image: string | null };
 
-const STORAGE_KEY = "zk-gallery-photos";
-
-const seed: Photo[] = [
-  { id: "s1", src: "", caption: "Snowflake AI Workshop — Cape Town" },
-  { id: "s2", src: "", caption: "AWS Summit — Johannesburg" },
-  { id: "s3", src: "", caption: "Women in AI — Cape Town" },
-  { id: "s4", src: "", caption: "CAPACITI AI Skills Accelerator" },
-  { id: "s5", src: "", caption: "BBD Software Event — Johannesburg" },
-  { id: "s6", src: "", caption: "WeThinkCode_ tutoring sessions" },
+const galleryItems: GalleryItem[] = [
+  { caption: "Snowflake AI Workshop — Cape Town", image: snowflakeImg.url },
+  { caption: "Women in AI — Cape Town", image: womenInAiImg.url },
+  { caption: "AWS Summit — Johannesburg", image: awsSummitImg.url },
+  { caption: "BBD Software Event — Johannesburg", image: null },
+  { caption: "CAPACITI AI Skills Accelerator", image: null },
+  { caption: "WeThinkCode_ tutoring sessions", image: null },
 ];
 
-function readFile(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
+function initials(caption: string) {
+  return caption
+    .split(" ")
+    .slice(0, 3)
+    .map((w) => w[0])
+    .join("");
 }
 
 export function Gallery() {
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [active, setActive] = useState<Photo | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setPhotos(JSON.parse(raw) as Photo[]);
-    } catch {
-      /* ignore corrupt storage */
-    }
-  }, []);
-
-  const persist = (next: Photo[]) => {
-    setPhotos(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* storage full — photos stay for this session */
-    }
-  };
-
-  const onFiles = async (files: FileList | null) => {
-    if (!files?.length) return;
-    const added: Photo[] = [];
-    for (const file of Array.from(files)) {
-      if (!file.type.startsWith("image/")) continue;
-      added.push({
-        id: `${Date.now()}-${file.name}`,
-        src: await readFile(file),
-        caption: file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
-      });
-    }
-    persist([...added, ...photos]);
-  };
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setActive(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  const placeholders = photos.length ? [] : seed;
+  const [active, setActive] = useState<GalleryItem | null>(null);
 
   return (
     <Section
       id="gallery"
       eyebrow="Moments & Memories"
       title="Gallery"
-      subtitle="Snapshots from workshops, bootcamps, speaking engagements, and community events"
+      subtitle="Snapshots from workshops, bootcamps, community events, and memorable tech moments"
     >
-      <Reveal className="mb-8">
-        <div className="glass flex flex-wrap items-center justify-between gap-4 p-5">
-          <p className="text-sm text-muted-foreground">
-            Add your own photos from Snowflake, AWS, Women in AI and CAPACITI — they stay saved in
-            this browser.
-          </p>
-          <div className="flex gap-2">
-            <input
-              ref={inputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={(e) => void onFiles(e.target.files)}
-            />
-            <Button variant="glow" onClick={() => inputRef.current?.click()}>
-              <Upload /> Upload photos
-            </Button>
-          </div>
-        </div>
-      </Reveal>
-
-      <div className="columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
-        {photos.map((p, i) => (
-          <Reveal key={p.id} delay={(i % 3) * 70}>
-            <figure
-              className="group glass relative cursor-zoom-in overflow-hidden transition-all hover:shadow-[var(--glow-pink)]"
-              style={{ borderColor: "transparent" }}
-              onClick={() => setActive(p)}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {galleryItems.map((item, i) => (
+          <Reveal key={item.caption} delay={(i % 3) * 80}>
+            <article
+              className={`group glass relative h-80 overflow-hidden rounded-[var(--radius-xl)] ${item.image ? "cursor-zoom-in" : "glass-hover"}`}
+              onClick={() => item.image && setActive(item)}
             >
-              <img
-                src={p.src}
-                alt={p.caption}
-                loading="lazy"
-                className="w-full rounded-[inherit] object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              />
-              <span
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={item.caption}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div
+                  className="flex h-full flex-col items-center justify-center gap-3 px-6"
+                  style={{ background: "var(--gradient-brand-soft)" }}
+                >
+                  <ImageUp className="h-8 w-8" style={{ color: "var(--pink)" }} />
+                  <span className="gradient-text text-2xl font-extrabold tracking-tight">
+                    {initials(item.caption)}
+                  </span>
+                  <p className="text-center text-sm font-medium">{item.caption}</p>
+                </div>
+              )}
+
+              <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity group-hover:opacity-100"
-                style={{ border: "2px solid var(--pink)" }}
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-70"
+                style={{ background: "var(--gradient-brand)" }}
               />
-              <figcaption className="absolute inset-x-0 bottom-0 translate-y-2 bg-[color-mix(in_oklab,var(--background)_80%,transparent)] p-3 text-xs opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                {p.caption}
-              </figcaption>
-              <button
-                aria-label="Remove photo"
-                className="absolute top-3 right-3 rounded-full bg-[color-mix(in_oklab,var(--background)_75%,transparent)] p-2 opacity-0 transition-opacity group-hover:opacity-100"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  persist(photos.filter((x) => x.id !== p.id));
-                }}
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
-            </figure>
-          </Reveal>
-        ))}
 
-        {placeholders.map((p, i) => (
-          <Reveal key={p.id} delay={(i % 3) * 70}>
-            <div
-              className="glass glass-hover flex flex-col items-center justify-center gap-3 p-8 text-center"
-              style={{ minHeight: i % 2 ? 200 : 260 }}
-            >
-              <span
-                className="flex h-12 w-12 items-center justify-center rounded-xl"
-                style={{ background: "var(--gradient-brand-soft)" }}
-              >
-                <ImagePlus className="h-5 w-5" style={{ color: "var(--pink)" }} />
-              </span>
-              <p className="text-sm font-medium">{p.caption}</p>
-              <p className="text-xs text-muted-foreground">Upload a photo for this moment</p>
-            </div>
+              {item.image ? (
+                <div className="absolute inset-x-0 bottom-0 translate-y-2 bg-[color-mix(in_oklab,var(--background)_80%,transparent)] p-4 text-sm opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
+                  {item.caption}
+                </div>
+              ) : null}
+            </article>
           </Reveal>
         ))}
       </div>
@@ -171,7 +94,7 @@ export function Gallery() {
           </button>
           <figure className="gradient-border max-h-full max-w-4xl overflow-hidden rounded-2xl">
             <img
-              src={active.src}
+              src={active.image!}
               alt={active.caption}
               className="max-h-[80vh] w-full object-contain"
             />
