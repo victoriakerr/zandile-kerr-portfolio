@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-border py-12">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 md:grid-cols-2">
         <div>
-          <p className="font-display text-lg font-bold">
+          <p className="text-lg font-bold">
             <span className="gradient-text">Zandile Kerr</span>
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
