@@ -1,4 +1,7 @@
-import { CalendarDays, MapPin, Users, ExternalLink } from "lucide-react";
+import { CalendarDays, MapPin, Users, ExternalLink, ImageUp } from "lucide-react";
+import snowflakeImg from "@/assets/event-snowflake.jpg.asset.json";
+import womenInAiImg from "@/assets/event-women-in-ai.jpg.asset.json";
+import awsSummitImg from "@/assets/event-aws-summit.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { Reveal, Section, Tag } from "./shared";
 
@@ -9,6 +12,7 @@ const events = [
     date: "2026",
     attendees: "150+ attendees",
     type: "Workshop",
+    image: snowflakeImg.url,
     url: "https://www.snowflake.com",
     topics: ["Data Cloud", "AI Pipelines"],
     description:
@@ -20,6 +24,7 @@ const events = [
     date: "Attended",
     attendees: "5 000+ attendees",
     type: "Summit",
+    image: awsSummitImg.url,
     url: "https://aws.amazon.com/summits",
     topics: ["Cloud", "Serverless", "AI/ML"],
     description:
@@ -42,10 +47,33 @@ const events = [
     date: "Attended",
     attendees: "300+ attendees",
     type: "Community",
+    image: womenInAiImg.url,
     url: "https://www.womeninai.co",
     topics: ["AI", "Women in Tech"],
     description:
       "Celebrating and connecting women building with artificial intelligence across South Africa.",
+  },
+  {
+    name: "CAPACITI AI Skills Accelerator",
+    location: "South Africa",
+    date: "2026",
+    attendees: "Cohort programme",
+    type: "Programme",
+    url: "https://www.capaciti.org.za",
+    topics: ["AI", "Upskilling"],
+    description:
+      "Intensive AI skills accelerator building practical, job-ready artificial intelligence capability.",
+  },
+  {
+    name: "WeThinkCode_ tutoring sessions",
+    location: "Johannesburg",
+    date: "Ongoing",
+    attendees: "Peer learners",
+    type: "Mentorship",
+    url: "https://www.wethinkcode.co.za",
+    topics: ["Mentorship", "Peer Learning"],
+    description:
+      "Supervising and tutoring peer-learning sessions, supporting students through the curriculum.",
   },
   {
     name: "Africa Tech Festival 2026",
@@ -72,18 +100,35 @@ export function Events() {
         {events.map((e, i) => (
           <Reveal key={e.name} delay={(i % 3) * 80}>
             <article className="glass glass-hover flex h-full flex-col overflow-hidden">
-              <div
-                aria-hidden
-                className="flex h-36 items-center justify-center"
-                style={{ background: "var(--gradient-brand-soft)" }}
-              >
-                <span className="gradient-text text-2xl font-extrabold tracking-tight">
-                  {e.name
-                    .split(" ")
-                    .slice(0, 3)
-                    .map((w) => w[0])
-                    .join("")}
-                </span>
+              <div className="group relative h-44 overflow-hidden rounded-t-[var(--radius-xl)]">
+                {"image" in e && e.image ? (
+                  <img
+                    src={e.image}
+                    alt={`${e.name} in ${e.location}`}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div
+                    aria-hidden
+                    className="flex h-full w-full flex-col items-center justify-center gap-2"
+                    style={{ background: "var(--gradient-brand-soft)" }}
+                  >
+                    <ImageUp className="h-7 w-7" style={{ color: "var(--pink)" }} />
+                    <span className="gradient-text text-xl font-extrabold tracking-tight">
+                      {e.name
+                        .split(" ")
+                        .slice(0, 3)
+                        .map((w) => w[0])
+                        .join("")}
+                    </span>
+                  </div>
+                )}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-70"
+                  style={{ background: "var(--gradient-brand)" }}
+                />
               </div>
 
               <div className="flex flex-1 flex-col p-6">
